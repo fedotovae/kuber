@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: docker-kuber-deploy
+    labels:
+        app: docker-kuber
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            env: dev
+    strategy:
+        type: RollingUpdate
+        rollingUpdate:
+            maxSurge: 1 
+            maxUnavailable: 1
+    template:
+        metadata:
+            labels:
+                env: dev
+        spec:
+            containers:
+            - name: docker-kuber
+              image: efedotova/hometasks:docker_kuber
+              ports:
+              - containerPort: 8081
